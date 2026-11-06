@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0f14" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="菜谱" />
+<link rel="icon" href="data:," />
+<title>本周菜谱 · 电磁炉＋蒸锅</title>
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#0a0f14; --bg2:#0e151d; --card:#121c26; --card2:#16222f;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.13);
+    --text:#f2f5f7; --text2:#aebcc8; --text3:#7d8f9e;
+    --accent:#e8b34b; --teal:#3ec6b8; --blue:#5ea8e6; --green:#5ec97a;
+    --radius:20px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px 18px 28px}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  h1{font-size:30px;margin:0;font-weight:750;letter-spacing:.01em}
+  .sub{color:var(--text2);font-size:14.5px;margin-top:6px;line-height:1.6}
+  .tools{display:flex;gap:10px;align-items:center}
+  .btn{appearance:none;border:1px solid var(--line2);background:var(--card);color:var(--text);
+    padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn[aria-pressed="true"]{border-color:rgba(62,198,184,.5);color:var(--teal)}
+  .formula{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px;color:var(--text2)}
+  .chip b{color:var(--text);font-size:15px}
+  h2{font-size:19px;margin:26px 0 12px;font-weight:700}
+  h2 .tag{font-size:12px;color:var(--accent);border:1px solid rgba(232,179,75,.35);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:2px;font-weight:700}
+  .tonight{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid rgba(232,179,75,.4);border-radius:var(--radius);padding:20px 22px}
+  .tonight .dish{font-size:24px;font-weight:750}
+  .tonight .meta{color:var(--text2);font-size:14.5px;margin-top:5px;line-height:1.6}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .step{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .step .t{font-size:22px;font-weight:750;color:var(--accent);font-variant-numeric:tabular-nums}
+  .step .d{font-size:14px;color:var(--text);margin-top:4px;line-height:1.55}
+  .step .d small{display:block;color:var(--text3);font-size:12.5px;margin-top:2px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .card .day{font-size:12.5px;color:var(--teal);font-weight:800;letter-spacing:.1em}
+  .card .dish{font-size:19px;font-weight:700;margin-top:4px;line-height:1.4}
+  .card .how{color:var(--text2);font-size:14px;line-height:1.65;margin-top:6px}
+  .card .how b{color:var(--text)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .rules{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;margin-top:12px}
+  .rules ul{margin:0;padding-left:20px;color:var(--text2);font-size:14.5px;line-height:1.9}
+  .rules b{color:var(--text)}
+  footer{margin-top:22px;color:var(--text3);font-size:13px;line-height:1.7}
+  @media (max-width:900px){ .steps{grid-template-columns:1fr 1fr} .grid,.grid3{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>本周菜谱</h1>
+      <div class="sub">电磁炉 ＋ 蒸锅 · 严格无乳制品、无豆类/豆制品 · 一餐约 550–650 kcal</div>
+    </div>
+    <div class="tools">
+      <button class="btn" id="wakeBtn" type="button" aria-pressed="false">保持屏幕常亮</button>
+      <a class="btn" href="index.html">← 回晨报仪表盘</a>
+    </div>
+  </header>
+
+  <div class="formula">
+    <span class="chip">蛋白质 <b>1 个手掌大</b>：蛋 / 去皮鸡腿 / 鸡胸 / 鱼</span>
+    <span class="chip">蔬菜 <b>2 种各一拳</b>，蒸或白灼</span>
+    <span class="chip">主食 <b>半份</b>：半碗饭 / 玉米 / 红薯 / 南瓜，同锅蒸</span>
+    <span class="chip">全天约 <b>1,800 kcal</b> · 蛋白质约 <b>115 g</b></span>
+  </div>
+
+  <h2>今晚就做<span class="tag">DAY 1</span></h2>
+  <div class="tonight">
+    <div class="dish">蒜蓉蒸鸡腿肉 ＋ 蒸西兰花 ＋ 贝贝南瓜 ＋ 水蒸蛋</div>
+    <div class="meta">鸡腿肉约 180 g（蒜末、盐、黑胡椒、少许蚝油，先腌 10 分钟）｜约 600 kcal · 蛋白质约 50 g｜中午吃得少，今晚靠蒸蛋把蛋白补上</div>
+    <div class="steps">
+      <div class="step"><div class="t">0 分</div><div class="d"><b>南瓜下锅</b><small>贝贝南瓜半个，蒸全程 20 分钟</small></div></div>
+      <div class="step"><div class="t">5 分</div><div class="d"><b>放鸡肉和蒸蛋</b><small>鸡肉蒸 15 分钟；蛋液加 1.5 倍温水、少许盐，蒸 10 分钟</small></div></div>
+      <div class="step"><div class="t">15 分</div><div class="d"><b>放西兰花</b><small>最后 5 分钟，保住脆和绿</small></div></div>
+      <div class="step"><div class="t">20 分</div><div class="d"><b>一起出锅</b><small>鸡肉划开看断面，没粉红就是熟了</small></div></div>
+    </div>
+  </div>
+
+  <h2>晚餐轮换 · 7 天不重样（全部 20 分钟内）</h2>
+  <div class="grid">
+    <div class="card"><div class="day">DAY 1</div><div class="dish">蒜蓉蒸去皮鸡腿 ＋ 蒸西兰花 ＋ 玉米</div><p class="how">蒜末、盐、黑胡椒、蚝油腌 <b>10 分钟</b>，蒸 <b>15 分钟</b>；西兰花最后 5 分钟入锅；玉米同锅蒸 20 分钟。</p></div>
+    <div class="card"><div class="day">DAY 2</div><div class="dish">清蒸鲈鱼 ＋ 白灼油麦菜 ＋ 半碗饭</div><p class="how">鱼身划刀、姜丝垫底，水开蒸 <b>8–10 分钟</b>；出锅铺葱丝，淋一勺热蚝油汁。油麦菜水开下锅 1 分钟捞出。</p></div>
+    <div class="card"><div class="day">DAY 3</div><div class="dish">番茄炒蛋 ＋ 蒸菜心 ＋ 半碗饭</div><p class="how">番茄切块先炒出汁；蛋另炒至半熟，回锅合炒，盐调味。菜心蒸 <b>6 分钟</b>，淋少许蚝油。</p></div>
+    <div class="card"><div class="day">DAY 4</div><div class="dish">广式蒸肉饼 ＋ 蒸丝瓜 ＋ 半碗饭</div><p class="how">肉末 <b>100 g</b> 拌马蹄碎、盐、黑胡椒，压成饼，中间卧个蛋，蒸 <b>12–15 分钟</b>；丝瓜去皮切段同蒸 8 分钟。<b>没买到猪肉末时，用鸡肉末顶替。</b></p></div>
+    <div class="card"><div class="day">DAY 5</div><div class="dish">蒸蛋羹（3 个蛋）＋ 蒜蓉蒸茄子 ＋ 蒸红薯</div><p class="how">蛋液加 <b>1.5 倍温水</b>、少许盐，撇掉浮沫，蒸 <b>10 分钟</b>；茄子切条铺蒜蓉蒸 10 分钟；红薯同锅 20 分钟。</p></div>
+    <div class="card"><div class="day">DAY 6</div><div class="dish">虾仁蒸粉丝 ＋ 白灼菠菜 ＋ 小段玉米</div><p class="how">粉丝温水泡软垫底，虾仁 <b>6–8 只</b>铺面，蒜蓉蚝油汁，蒸 <b>6–8 分钟</b>；菠菜<b>先焯水</b>去草酸，再白灼。虾一周最多 2 次小份。</p></div>
+    <div class="card"><div class="day">DAY 7</div><div class="dish">黑胡椒蒸鸡胸 ＋ 蒸菌菇胡萝卜 ＋ 蒸南瓜</div><p class="how">鸡胸切片，黑胡椒、盐腌 10 分钟，蒸 <b>10–12 分钟</b>就出锅，别蒸老；菌菇、胡萝卜、南瓜同锅。</p></div>
+    <div class="card"><div class="day">搭配原则</div><div class="dish">一锅出，错峰下锅</div><p class="how">耐蒸的先下（南瓜、红薯、玉米 20 分钟）→ 肉类中段（10–15 分钟）→ 青菜最后（5 分钟）。一锅搞定，不用守着灶。</p></div>
+  </div>
+
+  <h2>早餐 · 固定三选一</h2>
+  <div class="grid3">
+    <div class="card"><div class="dish" style="font-size:17px">黑咖啡 ＋ 蒸蛋 2 个</div><p class="how">再加蒸玉米或红薯、一份水果。咖啡机黑咖啡无奶，正合忌口。</p></div>
+    <div class="card"><div class="dish" style="font-size:17px">燕麦煮粥 ＋ 蛋</div><p class="how">燕麦只认配料表 100% 燕麦那款。</p></div>
+    <div class="card"><div class="dish" style="font-size:17px">昨晚剩的主食 ＋ 蛋</div><p class="how">热一下就行。保底线：一个蛋 ＋ 半根玉米也算数，<b>别整顿跳过，也别空腹只喝咖啡</b>。</p></div>
+  </div>
+
+  <h2>厨房纪律</h2>
+  <div class="rules">
+    <ul>
+      <li><b>解冻</b>：吃前一晚把分装袋从冷冻移到冷藏慢解；解冻后 <b>24 小时内吃完</b>，生肉不回冻。</li>
+      <li><b>调味只用</b>：盐、黑胡椒、蒜、姜、葱、蚝油、醋、辣椒。豆瓣酱、豆豉、酱油不进门。</li>
+      <li><b>尿酸</b>：每天水喝够 2 L；蒸菜的汤汁别当汤喝；海鲜按轮换表频率走。</li>
+      <li><b>菠菜先焯水</b>再吃；一餐成本约 ¥10–16，比外卖省一半以上。</li>
+    </ul>
+  </div>
+
+  <footer>份量按一人份。食材保存：虾仁、鸡肉按餐分装冷冻（约 100–150 g 一袋）；鸡蛋冷藏中层；板栗薯、贝贝南瓜常温避光，别冷藏。</footer>
+</div>
+
+<script>
+var wakeLock = null, wakeBtn = document.getElementById("wakeBtn");
+function setWakeUI(on){
+  wakeBtn.setAttribute("aria-pressed", on ? "true" : "false");
+  wakeBtn.textContent = on ? "常亮已开" : "保持屏幕常亮";
+}
+if ("wakeLock" in navigator) {
+  wakeBtn.addEventListener("click", function(){
+    if (wakeLock) { wakeLock.release(); return; }
+    navigator.wakeLock.request("screen").then(function(wl){
+      wakeLock = wl; setWakeUI(true);
+      wl.addEventListener("release", function(){ wakeLock = null; setWakeUI(false); });
+    }).catch(function(){ wakeBtn.textContent = "常亮不可用"; });
+  });
+} else {
+  wakeBtn.addEventListener("click", function(){
+    wakeBtn.textContent = "Safari 请在设置里把自动锁定改「永不」";
+  });
+}
+</script>
+</body>
+</html>
