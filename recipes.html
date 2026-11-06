@@ -17,7 +17,7 @@
     --bg:#0a0f14; --bg2:#0e151d; --card:#121c26; --card2:#16222f;
     --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.13);
     --text:#f2f5f7; --text2:#aebcc8; --text3:#7d8f9e;
-    --accent:#e8b34b; --teal:#3ec6b8; --blue:#5ea8e6; --green:#5ec97a;
+    --accent:#e8b34b; --teal:#3ec6b8; --blue:#5ea8e6; --green:#5ec97a; --red:#e8736a;
     --radius:20px;
   }
   *{box-sizing:border-box}
@@ -33,30 +33,63 @@
     padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
   .btn[aria-pressed="true"]{border-color:rgba(62,198,184,.5);color:var(--teal)}
   .formula{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-  .chip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px;color:var(--text2)}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px;color:var(--text2);display:flex;align-items:center;gap:9px}
   .chip b{color:var(--text);font-size:15px}
+  .chip svg{width:22px;height:22px;flex:none}
   h2{font-size:19px;margin:26px 0 12px;font-weight:700}
   h2 .tag{font-size:12px;color:var(--accent);border:1px solid rgba(232,179,75,.35);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:2px;font-weight:700}
+
+  /* ---------- 跟做计时器 ---------- */
+  .timer{background:linear-gradient(180deg,#182635,var(--card));border:1px solid rgba(62,198,184,.35);border-radius:var(--radius);padding:20px 22px;margin-top:18px}
+  .timer .t-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .timer .t-dish{font-size:20px;font-weight:750}
+  .timer .t-step{font-size:13px;color:var(--teal);font-weight:700;letter-spacing:.08em}
+  .timer .t-clock{font-size:92px;font-weight:200;line-height:1;text-align:center;font-variant-numeric:tabular-nums;margin:10px 0 2px}
+  .timer .t-cook{text-align:center;font-size:17px;color:var(--text2)}
+  .timer .t-cook b{color:var(--text)}
+  .timer .t-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:14px 0 4px}
+  .timer .t-bar > i{display:block;height:100%;width:0%;background:var(--teal);border-radius:99px;transition:width .3s linear}
+  .timer .t-action{display:none;margin-top:14px;background:rgba(232,179,75,.12);border:1px solid rgba(232,179,75,.45);border-radius:14px;padding:14px 16px;font-size:19px;font-weight:700;line-height:1.5}
+  .timer .t-action.show{display:block;animation:blink 1s ease-in-out infinite alternate}
+  @keyframes blink{from{border-color:rgba(232,179,75,.45)}to{border-color:rgba(232,179,75,.95)}}
+  .timer .t-btns{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+  .tbtn{appearance:none;border-radius:999px;padding:13px 26px;font-size:16px;font-weight:700;cursor:pointer;border:1px solid var(--line2);background:var(--card);color:var(--text)}
+  .tbtn.primary{background:var(--teal);border-color:var(--teal);color:#06231f;font-size:18px;padding:14px 34px}
+  .tbtn.gold{background:var(--accent);border-color:var(--accent);color:#2a1e04;font-size:18px;padding:14px 34px}
+  .tbtn:disabled{opacity:.35;cursor:default}
+  .timer .t-list{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .timer .t-chip{font-size:13px;color:var(--text3);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+  .timer .t-chip.on{color:var(--teal);border-color:rgba(62,198,184,.5)}
+  .timer .t-chip.done{color:var(--text2);text-decoration:line-through}
+
+  /* ---------- 今晚 ---------- */
   .tonight{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid rgba(232,179,75,.4);border-radius:var(--radius);padding:20px 22px}
   .tonight .dish{font-size:24px;font-weight:750}
   .tonight .meta{color:var(--text2);font-size:14.5px;margin-top:5px;line-height:1.6}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .tonight-flex{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-top:16px;align-items:start}
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
   .step{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
   .step .t{font-size:22px;font-weight:750;color:var(--accent);font-variant-numeric:tabular-nums}
   .step .d{font-size:14px;color:var(--text);margin-top:4px;line-height:1.55}
   .step .d small{display:block;color:var(--text3);font-size:12.5px;margin-top:2px}
+  .diagram{background:rgba(255,255,255,.02);border:1px dashed var(--line2);border-radius:14px;padding:10px 8px 6px}
+  .diagram .cap{text-align:center;font-size:12.5px;color:var(--text3);padding:4px 0 6px}
+
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
-  .card .day{font-size:12.5px;color:var(--teal);font-weight:800;letter-spacing:.1em}
+  .card .day{font-size:12.5px;color:var(--teal);font-weight:800;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+  .card .day svg{width:20px;height:20px}
   .card .dish{font-size:19px;font-weight:700;margin-top:4px;line-height:1.4}
   .card .how{color:var(--text2);font-size:14px;line-height:1.65;margin-top:6px}
   .card .how b{color:var(--text)}
+  .card .cook-btn{margin-top:12px;appearance:none;border:1px solid rgba(62,198,184,.5);background:rgba(62,198,184,.08);color:var(--teal);
+    padding:9px 18px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   .rules{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;margin-top:12px}
   .rules ul{margin:0;padding-left:20px;color:var(--text2);font-size:14.5px;line-height:1.9}
   .rules b{color:var(--text)}
   footer{margin-top:22px;color:var(--text3);font-size:13px;line-height:1.7}
-  @media (max-width:900px){ .steps{grid-template-columns:1fr 1fr} .grid,.grid3{grid-template-columns:1fr} }
+  @media (max-width:900px){ .tonight-flex{grid-template-columns:1fr} .grid,.grid3{grid-template-columns:1fr} .timer .t-clock{font-size:72px} }
 </style>
 </head>
 <body>
@@ -73,34 +106,81 @@
   </header>
 
   <div class="formula">
-    <span class="chip">蛋白质 <b>1 个手掌大</b>：蛋 / 去皮鸡腿 / 鸡胸 / 鱼</span>
-    <span class="chip">蔬菜 <b>2 种各一拳</b>，蒸或白灼</span>
-    <span class="chip">主食 <b>半份</b>：半碗饭 / 玉米 / 红薯 / 南瓜，同锅蒸</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#e8b34b" stroke-width="1.7" stroke-linecap="round"><path d="M7 3v7a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V3"/><path d="M12 12v9"/></svg>蛋白质 <b>1 个手掌大</b>：蛋 / 去皮鸡腿 / 鸡胸 / 鱼</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#3ec6b8" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg>蔬菜 <b>2 种各一拳</b>，蒸或白灼</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#5ea8e6" stroke-width="1.7" stroke-linecap="round"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M2 11h20"/></svg>主食 <b>半份</b>：半碗饭 / 玉米 / 红薯 / 南瓜，同锅蒸</span>
     <span class="chip">全天约 <b>1,800 kcal</b> · 蛋白质约 <b>115 g</b></span>
   </div>
+
+  <!-- 跟做计时器 -->
+  <section class="timer" id="timerPanel" aria-label="跟做计时器">
+    <div class="t-head">
+      <span class="t-dish" id="tDish">跟做计时 · 今晚 Day 1</span>
+      <span class="t-step" id="tStepLabel">共 3 步 · 总计 20 分钟</span>
+    </div>
+    <div class="t-clock" id="tClock">05:00</div>
+    <div class="t-cook" id="tCook">先把<b>贝贝南瓜</b>放进锅，点「开始」</div>
+    <div class="t-bar"><i id="tBar"></i></div>
+    <div class="t-action" id="tAction"></div>
+    <div class="t-btns">
+      <button class="tbtn primary" id="tStart" type="button">开始</button>
+      <button class="tbtn gold" id="tNext" type="button" style="display:none">放好了 · 继续</button>
+      <button class="tbtn" id="tPause" type="button" disabled>暂停</button>
+      <button class="tbtn" id="tReset" type="button">重置</button>
+    </div>
+    <div class="t-list" id="tList"></div>
+  </section>
 
   <h2>今晚就做<span class="tag">DAY 1</span></h2>
   <div class="tonight">
     <div class="dish">蒜蓉蒸鸡腿肉 ＋ 蒸西兰花 ＋ 贝贝南瓜 ＋ 水蒸蛋</div>
-    <div class="meta">鸡腿肉约 180 g（蒜末、盐、黑胡椒、少许蚝油，先腌 10 分钟）｜约 600 kcal · 蛋白质约 50 g｜中午吃得少，今晚靠蒸蛋把蛋白补上</div>
-    <div class="steps">
-      <div class="step"><div class="t">0 分</div><div class="d"><b>南瓜下锅</b><small>贝贝南瓜半个，蒸全程 20 分钟</small></div></div>
-      <div class="step"><div class="t">5 分</div><div class="d"><b>放鸡肉和蒸蛋</b><small>鸡肉蒸 15 分钟；蛋液加 1.5 倍温水、少许盐，蒸 10 分钟</small></div></div>
-      <div class="step"><div class="t">15 分</div><div class="d"><b>放西兰花</b><small>最后 5 分钟，保住脆和绿</small></div></div>
-      <div class="step"><div class="t">20 分</div><div class="d"><b>一起出锅</b><small>鸡肉划开看断面，没粉红就是熟了</small></div></div>
+    <div class="meta">鸡腿肉约 180 g（蒜末、盐、黑胡椒、少许蚝油，先腌 10 分钟）｜约 600 kcal · 蛋白质约 50 g｜中午吃得少，今晚靠蒸蛋把蛋白补上。用上面的计时器跟着走，不用记时间。</div>
+    <div class="tonight-flex">
+      <div class="steps">
+        <div class="step"><div class="t">0 分</div><div class="d"><b>南瓜下锅</b><small>贝贝南瓜半个，蒸全程 20 分钟</small></div></div>
+        <div class="step"><div class="t">5 分</div><div class="d"><b>放鸡肉和蒸蛋</b><small>鸡肉蒸 15 分钟；蛋液加 1.5 倍温水、少许盐，蒸 10 分钟</small></div></div>
+        <div class="step"><div class="t">15 分</div><div class="d"><b>蒸蛋先取出，再放西兰花</b><small>西兰花最后 5 分钟，保住脆和绿</small></div></div>
+        <div class="step"><div class="t">20 分</div><div class="d"><b>一起出锅</b><small>鸡肉划开看断面，没粉红就是熟了</small></div></div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 260 218" width="100%" role="img" aria-label="蒸锅错峰下锅示意图">
+          <!-- 蒸汽 -->
+          <path d="M85 26c-5-6 5-9 0-15M130 22c-5-6 5-9 0-15M175 26c-5-6 5-9 0-15" stroke="#7d8f9e" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- 锅盖 -->
+          <path d="M45 62a85 26 0 0 1 170 0" fill="none" stroke="#aebcc8" stroke-width="2.5"/>
+          <circle cx="130" cy="34" r="5" fill="none" stroke="#aebcc8" stroke-width="2.5"/>
+          <!-- 上层蒸屉 -->
+          <rect x="40" y="66" width="180" height="34" rx="6" fill="rgba(94,201,122,.10)" stroke="#5ec97a" stroke-width="1.6"/>
+          <ellipse cx="82" cy="86" rx="17" ry="9" fill="none" stroke="#5ec97a" stroke-width="1.8"/>
+          <circle cx="140" cy="85" r="10" fill="none" stroke="#e8b34b" stroke-width="1.8"/>
+          <circle cx="140" cy="85" r="4" fill="#e8b34b"/>
+          <path d="M172 92c8-10 20-10 26-2-6 6-16 8-26 2z" fill="none" stroke="#e8736a" stroke-width="1.8"/>
+          <!-- 下层蒸屉 -->
+          <rect x="40" y="104" width="180" height="34" rx="6" fill="rgba(232,179,75,.08)" stroke="#e8b34b" stroke-width="1.6"/>
+          <path d="M95 128a26 13 0 0 1 52 0z" fill="none" stroke="#e8b34b" stroke-width="1.8"/>
+          <path d="M121 115v-5" stroke="#e8b34b" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- 锅体与火 -->
+          <path d="M34 142h192l-10 34a8 8 0 0 1-8 6H52a8 8 0 0 1-8-6z" fill="none" stroke="#aebcc8" stroke-width="2.5"/>
+          <path d="M105 200c4-7 8-7 10 0M128 204c4-9 10-9 12 0M152 200c4-7 8-7 10 0" stroke="#5ea8e6" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <!-- 标注 -->
+          <text x="130" y="58" text-anchor="middle" font-size="10.5" fill="#7d8f9e">蒸 汽</text>
+          <text x="130" y="160" text-anchor="middle" font-size="11" fill="#aebcc8">水 · 电磁炉</text>
+        </svg>
+        <div class="cap">上层：西兰花 · 蒸蛋 · 鸡肉（后下）<br>下层：南瓜（先下，蒸满 20 分钟）</div>
+      </div>
     </div>
   </div>
 
   <h2>晚餐轮换 · 7 天不重样（全部 20 分钟内）</h2>
   <div class="grid">
-    <div class="card"><div class="day">DAY 1</div><div class="dish">蒜蓉蒸去皮鸡腿 ＋ 蒸西兰花 ＋ 玉米</div><p class="how">蒜末、盐、黑胡椒、蚝油腌 <b>10 分钟</b>，蒸 <b>15 分钟</b>；西兰花最后 5 分钟入锅；玉米同锅蒸 20 分钟。</p></div>
-    <div class="card"><div class="day">DAY 2</div><div class="dish">清蒸鲈鱼 ＋ 白灼油麦菜 ＋ 半碗饭</div><p class="how">鱼身划刀、姜丝垫底，水开蒸 <b>8–10 分钟</b>；出锅铺葱丝，淋一勺热蚝油汁。油麦菜水开下锅 1 分钟捞出。</p></div>
-    <div class="card"><div class="day">DAY 3</div><div class="dish">番茄炒蛋 ＋ 蒸菜心 ＋ 半碗饭</div><p class="how">番茄切块先炒出汁；蛋另炒至半熟，回锅合炒，盐调味。菜心蒸 <b>6 分钟</b>，淋少许蚝油。</p></div>
-    <div class="card"><div class="day">DAY 4</div><div class="dish">广式蒸肉饼 ＋ 蒸丝瓜 ＋ 半碗饭</div><p class="how">肉末 <b>100 g</b> 拌马蹄碎、盐、黑胡椒，压成饼，中间卧个蛋，蒸 <b>12–15 分钟</b>；丝瓜去皮切段同蒸 8 分钟。<b>没买到猪肉末时，用鸡肉末顶替。</b></p></div>
-    <div class="card"><div class="day">DAY 5</div><div class="dish">蒸蛋羹（3 个蛋）＋ 蒜蓉蒸茄子 ＋ 蒸红薯</div><p class="how">蛋液加 <b>1.5 倍温水</b>、少许盐，撇掉浮沫，蒸 <b>10 分钟</b>；茄子切条铺蒜蓉蒸 10 分钟；红薯同锅 20 分钟。</p></div>
-    <div class="card"><div class="day">DAY 6</div><div class="dish">虾仁蒸粉丝 ＋ 白灼菠菜 ＋ 小段玉米</div><p class="how">粉丝温水泡软垫底，虾仁 <b>6–8 只</b>铺面，蒜蓉蚝油汁，蒸 <b>6–8 分钟</b>；菠菜<b>先焯水</b>去草酸，再白灼。虾一周最多 2 次小份。</p></div>
-    <div class="card"><div class="day">DAY 7</div><div class="dish">黑胡椒蒸鸡胸 ＋ 蒸菌菇胡萝卜 ＋ 蒸南瓜</div><p class="how">鸡胸切片，黑胡椒、盐腌 10 分钟，蒸 <b>10–12 分钟</b>就出锅，别蒸老；菌菇、胡萝卜、南瓜同锅。</p></div>
-    <div class="card"><div class="day">搭配原则</div><div class="dish">一锅出，错峰下锅</div><p class="how">耐蒸的先下（南瓜、红薯、玉米 20 分钟）→ 肉类中段（10–15 分钟）→ 青菜最后（5 分钟）。一锅搞定，不用守着灶。</p></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#e8b34b" stroke-width="1.7" stroke-linecap="round"><path d="M15.5 3.5a5.5 5.5 0 1 1-6.6 8.7L4 17"/><path d="M4 17l-1.5 4M7.5 15.5L3 18"/></svg>DAY 1</div><div class="dish">蒜蓉蒸去皮鸡腿 ＋ 蒸西兰花 ＋ 玉米</div><p class="how">蒜末、盐、黑胡椒、蚝油腌 <b>10 分钟</b>，蒸 <b>15 分钟</b>；西兰花最后 5 分钟入锅；玉米同锅蒸 20 分钟。</p><button class="cook-btn" type="button" data-day="1">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#5ea8e6" stroke-width="1.7" stroke-linecap="round"><path d="M3 12c3-4.5 7-6.5 11-6.5 3 0 5.5 1.2 7 3-1.5 1.8-4 3-7 3C10 11.5 6 16.5 3 12z" transform="translate(0,1)"/><circle cx="16.5" cy="9.5" r=".6" fill="#5ea8e6"/></svg>DAY 2</div><div class="dish">清蒸鲈鱼 ＋ 白灼油麦菜 ＋ 半碗饭</div><p class="how">鱼身划刀、姜丝垫底，水开蒸 <b>8–10 分钟</b>；出锅铺葱丝，淋一勺热蚝油汁。油麦菜水开下锅 1 分钟捞出。</p><button class="cook-btn" type="button" data-day="2">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#e8736a" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="13" r="7.5"/><path d="M12 5.5c0-2 1.5-3 3.5-3M9 7c1-1.5 5-1.5 6 0"/></svg>DAY 3</div><div class="dish">番茄炒蛋 ＋ 蒸菜心 ＋ 半碗饭</div><p class="how">番茄切块先炒出汁；蛋另炒至半熟，回锅合炒，盐调味。菜心蒸 <b>6 分钟</b>，淋少许蚝油。</p><button class="cook-btn" type="button" data-day="3">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#e8b34b" stroke-width="1.7" stroke-linecap="round"><path d="M4 12h16a8 8 0 0 1-16 0z"/><path d="M8 8c0-1.5 1-1.5 1-3M13 8c0-1.5 1-1.5 1-3"/></svg>DAY 4</div><div class="dish">广式蒸肉饼 ＋ 蒸丝瓜 ＋ 半碗饭</div><p class="how">肉末 <b>100 g</b> 拌马蹄碎、盐、黑胡椒，压成饼，中间卧个蛋，蒸 <b>12–15 分钟</b>；丝瓜去皮切段同蒸 8 分钟。<b>没买到猪肉末时，用鸡肉末顶替。</b></p><button class="cook-btn" type="button" data-day="4">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f5f7" stroke-width="1.7" stroke-linecap="round"><ellipse cx="12" cy="12" rx="7" ry="9"/><circle cx="12" cy="13.5" r="3.2" stroke="#e8b34b"/></svg>DAY 5</div><div class="dish">蒸蛋羹（3 个蛋）＋ 蒜蓉蒸茄子 ＋ 蒸红薯</div><p class="how">蛋液加 <b>1.5 倍温水</b>、少许盐，撇掉浮沫，蒸 <b>10 分钟</b>；茄子切条铺蒜蓉蒸 10 分钟；红薯同锅 20 分钟。</p><button class="cook-btn" type="button" data-day="5">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#e8736a" stroke-width="1.7" stroke-linecap="round"><path d="M20 5a8 8 0 1 0 3 7"/><path d="M20 5c1.5 2 1.5 4.5 0 6.5M15 3.8c1 1.8 1 4 0 5.7"/></svg>DAY 6</div><div class="dish">虾仁蒸粉丝 ＋ 白灼菠菜 ＋ 小段玉米</div><p class="how">粉丝温水泡软垫底，虾仁 <b>6–8 只</b>铺面，蒜蓉蚝油汁，蒸 <b>6–8 分钟</b>；菠菜<b>先焯水</b>去草酸，再白灼。虾一周最多 2 次小份。</p><button class="cook-btn" type="button" data-day="6">跟做计时</button></div>
+    <div class="card"><div class="day"><svg viewBox="0 0 24 24" fill="none" stroke="#e8b34b" stroke-width="1.7" stroke-linecap="round"><ellipse cx="12" cy="13" rx="8" ry="7.5"/><path d="M12 5.5c-1 8-1 8 0 15M6.5 7.5c-2 5-2 7 0 11M17.5 7.5c2 5 2 7 0 11M12 5.5V3"/></svg>DAY 7</div><div class="dish">黑胡椒蒸鸡胸 ＋ 蒸菌菇胡萝卜 ＋ 蒸南瓜</div><p class="how">鸡胸切片，黑胡椒、盐腌 10 分钟，蒸 <b>10–12 分钟</b>就出锅，别蒸老；菌菇、胡萝卜、南瓜同锅。</p><button class="cook-btn" type="button" data-day="7">跟做计时</button></div>
+    <div class="card"><div class="day">搭配原则</div><div class="dish">一锅出，错峰下锅</div><p class="how">耐蒸的先下（南瓜、红薯、玉米 20 分钟）→ 肉类中段（10–15 分钟）→ 青菜最后（5 分钟）。点任意一天的「跟做计时」，照着提醒一步步放就行。</p></div>
   </div>
 
   <h2>早餐 · 固定三选一</h2>
@@ -124,24 +204,172 @@
 </div>
 
 <script>
+/* ---------------- 屏幕常亮 ---------------- */
 var wakeLock = null, wakeBtn = document.getElementById("wakeBtn");
 function setWakeUI(on){
   wakeBtn.setAttribute("aria-pressed", on ? "true" : "false");
   wakeBtn.textContent = on ? "常亮已开" : "保持屏幕常亮";
 }
+function grabWake(){
+  if (!("wakeLock" in navigator) || wakeLock) return;
+  navigator.wakeLock.request("screen").then(function(wl){
+    wakeLock = wl; setWakeUI(true);
+    wl.addEventListener("release", function(){ wakeLock = null; setWakeUI(false); });
+  }).catch(function(){});
+}
 if ("wakeLock" in navigator) {
   wakeBtn.addEventListener("click", function(){
     if (wakeLock) { wakeLock.release(); return; }
-    navigator.wakeLock.request("screen").then(function(wl){
-      wakeLock = wl; setWakeUI(true);
-      wl.addEventListener("release", function(){ wakeLock = null; setWakeUI(false); });
-    }).catch(function(){ wakeBtn.textContent = "常亮不可用"; });
+    grabWake();
   });
 } else {
   wakeBtn.addEventListener("click", function(){
     wakeBtn.textContent = "Safari 请在设置里把自动锁定改「永不」";
   });
 }
+
+/* ---------------- 跟做计时 ---------------- */
+var PLANS = {
+  1: { name: "今晚 Day 1 · 蒜蓉蒸鸡腿肉", first: "贝贝南瓜", steps: [
+    { cook: "贝贝南瓜（半个）", min: 5,  next: "把腌好的鸡腿肉和蒸蛋放进锅" },
+    { cook: "鸡腿肉 ＋ 蒸蛋",   min: 10, next: "先把蒸蛋取出，再把西兰花放进锅" },
+    { cook: "西兰花",           min: 5,  next: "全部出锅" } ] },
+  2: { name: "Day 2 · 清蒸鲈鱼", first: "鲈鱼", steps: [
+    { cook: "鲈鱼（姜丝垫底）", min: 9, next: "出锅：铺葱丝、淋热蚝油汁；油麦菜另起一锅水灼 1 分钟" } ] },
+  3: { name: "Day 3 · 蒸菜心", first: "菜心", steps: [
+    { cook: "菜心", min: 6, next: "出锅，淋少许蚝油（番茄炒蛋在灶上炒）" } ] },
+  4: { name: "Day 4 · 广式蒸肉饼", first: "肉饼", steps: [
+    { cook: "肉饼（卧蛋）", min: 5, next: "把丝瓜段放进锅" },
+    { cook: "丝瓜",         min: 8, next: "全部出锅" } ] },
+  5: { name: "Day 5 · 蒸红薯 ＋ 茄子 ＋ 蛋羹", first: "红薯", steps: [
+    { cook: "红薯",           min: 10, next: "把蒜蓉茄子和蛋羹放进锅" },
+    { cook: "茄子 ＋ 蛋羹",    min: 10, next: "全部出锅" } ] },
+  6: { name: "Day 6 · 虾仁蒸粉丝", first: "虾仁粉丝", steps: [
+    { cook: "虾仁粉丝（蒜蓉蚝油汁）", min: 7, next: "出锅；菠菜先焯水再白灼，玉米另蒸" } ] },
+  7: { name: "Day 7 · 蒸南瓜 ＋ 鸡胸", first: "南瓜", steps: [
+    { cook: "南瓜",               min: 8,  next: "把鸡胸片和菌菇胡萝卜放进锅" },
+    { cook: "鸡胸 ＋ 菌菇胡萝卜", min: 12, next: "全部出锅（鸡胸别蒸过头）" } ] }
+};
+
+var T = { plan: PLANS[1], idx: 0, remain: 0, endAt: 0, iv: null, state: "idle", rebeep: null };
+var el = function(id){ return document.getElementById(id); };
+var clockEl = el("tClock"), cookEl = el("tCook"), barEl = el("tBar"),
+    actEl = el("tAction"), startBtn = el("tStart"), nextBtn = el("tNext"),
+    pauseBtn = el("tPause"), resetBtn = el("tReset");
+
+var AC = null;
+function beep(n){
+  try {
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    if (AC.state === "suspended") AC.resume();
+    for (var i = 0; i < n; i++) {
+      var o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + i * 0.28;
+      o.type = "sine"; o.frequency.value = 880;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.35, t0 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.22);
+      o.connect(g); g.connect(AC.destination);
+      o.start(t0); o.stop(t0 + 0.25);
+    }
+  } catch (e) {}
+  if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+}
+function fmt(s){ s = Math.max(0, Math.ceil(s)); return (s < 600 ? "0" : "") + Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+function totalMin(p){ return p.steps.reduce(function(a, s){ return a + s.min; }, 0); }
+
+function renderChips(){
+  el("tList").innerHTML = T.plan.steps.map(function(s, i){
+    var cls = "t-chip" + (i < T.idx || T.state === "done" ? " done" : (i === T.idx && T.state !== "idle" ? " on" : ""));
+    return '<span class="' + cls + '">' + s.cook + " · " + s.min + " 分钟</span>";
+  }).join("");
+}
+function showStep(){
+  var st = T.plan.steps[T.idx];
+  el("tDish").textContent = "跟做计时 · " + T.plan.name;
+  el("tStepLabel").textContent = "第 " + (T.idx + 1) + " / " + T.plan.steps.length + " 步 · 总计 " + totalMin(T.plan) + " 分钟";
+  clockEl.textContent = fmt(st.min * 60);
+  barEl.style.width = "0%";
+  actEl.className = "t-action"; actEl.textContent = "";
+  if (T.state === "idle") {
+    cookEl.innerHTML = "先把<b>" + (T.idx === 0 ? T.plan.first : st.cook) + "</b>放进锅，点「开始」";
+  }
+  renderChips();
+}
+function loadPlan(day){
+  stopTimers();
+  T.plan = PLANS[day]; T.idx = 0; T.state = "idle";
+  startBtn.style.display = ""; startBtn.disabled = false;
+  nextBtn.style.display = "none";
+  pauseBtn.disabled = true; pauseBtn.textContent = "暂停";
+  showStep();
+}
+function stopTimers(){
+  if (T.iv) { clearInterval(T.iv); T.iv = null; }
+  if (T.rebeep) { clearInterval(T.rebeep); T.rebeep = null; }
+}
+function tick(){
+  T.remain = (T.endAt - Date.now()) / 1000;
+  var st = T.plan.steps[T.idx];
+  clockEl.textContent = fmt(T.remain);
+  barEl.style.width = Math.min(100, (1 - T.remain / (st.min * 60)) * 100) + "%";
+  if (T.remain <= 0) stepDone();
+}
+function startStep(){
+  var st = T.plan.steps[T.idx];
+  T.endAt = Date.now() + st.min * 60 * 1000;
+  T.state = "running";
+  stopTimers(); T.iv = setInterval(tick, 250);
+  cookEl.innerHTML = "正在蒸：<b>" + st.cook + "</b>";
+  startBtn.style.display = "none"; nextBtn.style.display = "none";
+  pauseBtn.disabled = false; pauseBtn.textContent = "暂停";
+  actEl.className = "t-action"; actEl.textContent = "";
+  grabWake();
+  renderChips();
+}
+function stepDone(){
+  stopTimers();
+  var st = T.plan.steps[T.idx], last = T.idx === T.plan.steps.length - 1;
+  T.state = last ? "done" : "waiting";
+  clockEl.textContent = "00:00"; barEl.style.width = "100%";
+  beep(last ? 4 : 3);
+  if (!last) T.rebeep = setInterval(function(){ beep(2); }, 20000);
+  actEl.className = "t-action show";
+  actEl.textContent = (last ? "完成 —— " : "时间到 —— ") + st.next;
+  cookEl.innerHTML = last ? "全部做好了，可以出锅" : "等你放好，点下面的「放好了 · 继续」";
+  nextBtn.style.display = last ? "none" : "";
+  nextBtn.textContent = "放好了 · 继续";
+  pauseBtn.disabled = true;
+  renderChips();
+}
+startBtn.addEventListener("click", startStep);
+nextBtn.addEventListener("click", function(){
+  if (T.state !== "waiting") return;
+  T.idx++; T.state = "idle"; showStep(); startStep();
+});
+pauseBtn.addEventListener("click", function(){
+  if (T.state === "running") {
+    stopTimers(); T.state = "paused";
+    T.remain = (T.endAt - Date.now()) / 1000;
+    pauseBtn.textContent = "继续";
+    cookEl.innerHTML = "已暂停 · 正在蒸：<b>" + T.plan.steps[T.idx].cook + "</b>";
+  } else if (T.state === "paused") {
+    T.endAt = Date.now() + T.remain * 1000;
+    T.state = "running";
+    T.iv = setInterval(tick, 250);
+    pauseBtn.textContent = "暂停";
+    cookEl.innerHTML = "正在蒸：<b>" + T.plan.steps[T.idx].cook + "</b>";
+  }
+});
+resetBtn.addEventListener("click", function(){ loadPlan(currentDay); });
+var currentDay = 1;
+document.querySelectorAll(".cook-btn").forEach(function(b){
+  b.addEventListener("click", function(){
+    currentDay = parseInt(b.getAttribute("data-day"), 10);
+    loadPlan(currentDay);
+    document.getElementById("timerPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+loadPlan(1);
 </script>
 </body>
 </html>
