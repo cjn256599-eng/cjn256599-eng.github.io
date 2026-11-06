@@ -299,7 +299,7 @@
         <a class="wake-btn" href="recipes.html" style="text-decoration:none">本周菜谱 →</a>
         <span class="foot-note" id="wakeNote" style="margin:0">立在桌上时点一下，防自动锁屏</span>
       </div>
-      <p class="foot-note">天气随每日晨报同步更新<br>晨报内容每日更新，见右侧四张卡</p>
+      <p class="foot-note">天气随每日晨报同步更新<br>晨报内容每日更新，见右侧四张卡<br>数据版本：<span id="dataVer">—</span> · 打开自动拉最新</p>
     </div>
   </aside>
 
@@ -312,8 +312,10 @@
    BRIEFING —— 每日晨报数据（唯一数据源，每天只改这一块）
    2026-11-06 晨发布，面向 2026-11-06
    ============================================================ */
+/*BRIEFING-START*/
 var BRIEFING = {
   dateLabel: "11 月 6 日 · 周五",
+  updatedAt: "11-06 16:30",
   weather: {
     place: "厦门 · 同安",
     condition: "多云",
@@ -403,6 +405,7 @@ var BRIEFING = {
     note: "卖车为必要节点。11 月工资 ¥10,854 已到账；公积金 ¥1,800 将于 11-08 提取。"
   }
 };
+/*BRIEFING-END*/
 
 /* ---------------- 图标（内联 SVG） ---------------- */
 function iconCar(){return '<svg viewBox="0 0 24 24" fill="none" stroke="#5ea8e6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l1.4-5.2A2 2 0 0 1 8.3 9.3h7.4a2 2 0 0 1 1.9 1.5L19 16"/><path d="M3.5 16.5h17v3h-17z"/><circle cx="7.2" cy="19.5" r="1.4"/><circle cx="16.8" cy="19.5" r="1.4"/></svg>';}
@@ -420,7 +423,7 @@ function trendHtml(cur, avg, invert){
 }
 
 /* ---------------- 渲染四张卡 ---------------- */
-(function render(){
+function renderCards(){
   var B = BRIEFING, T=B.tesla, S=B.sleep, D=B.today, G=B.goal;
   var spendPct = Math.min(100, Math.round(G.spend / G.spendBaseline * 100));
 
@@ -482,7 +485,7 @@ function trendHtml(cur, avg, invert){
   + '</section>';
 
   document.getElementById("cards").innerHTML = html;
-})();
+}
 
 /* ---------------- 时钟与日期 ---------------- */
 var WEEK = ["周日","周一","周二","周三","周四","周五","周六"];
@@ -500,7 +503,7 @@ function tick(){
 tick(); setInterval(tick, 1000);
 
 /* ---------------- 天气：读 BRIEFING，随每日晨报同步 ---------------- */
-(function renderWeather(){
+function renderWeather(){
   var W = BRIEFING.weather;
   if (!W) return;
   document.getElementById("weatherBody").innerHTML =
@@ -509,10 +512,10 @@ tick(); setInterval(tick, 1000);
     + '<div class="w-range">今日 <b>'+W.lo+'°</b> — <b>'+W.hi+'°</b></div></div></div>'
     + '<p class="w-note">'+W.note+'</p>';
   document.getElementById("wUpdated").textContent = "随晨报更新";
-})();
+}
 
 /* ---------------- 未来三天：读 BRIEFING.forecast ---------------- */
-(function renderForecast(){
+function renderForecast(){
   var F = BRIEFING.forecast;
   if (!F || !F.length) return;
   var MIN = 10, MAX = 32;
@@ -524,10 +527,10 @@ tick(); setInterval(tick, 1000);
       + '<span class="fc-t">' + x.lo + '° — <b>' + x.hi + '°</b></span></div>';
   }).join("") + '</div>';
   if (BRIEFING.forecastNote) document.getElementById("forecastNote").textContent = BRIEFING.forecastNote;
-})();
+}
 
 /* ---------------- 本月消费：读 BRIEFING.spend ---------------- */
-(function renderSpend(){
+function renderSpend(){
   var P = BRIEFING.spend;
   if (!P || !P.days || !P.days.length) return;
   var max = Math.max.apply(null, P.days.map(function(x){ return x.v; }));
@@ -542,7 +545,18 @@ tick(); setInterval(tick, 1000);
     }).join("") + "</div>"
     + '<div class="bar blue" style="margin-top:10px"><i style="width:' + pct + '%"></i></div>'
     + '<div class="sp-cap"><span>必要基线 <b>' + fmtYen(P.baseline) + "</b> · 已用 " + pct + '%</span><span>还剩 <b>' + fmtYen(P.baseline - P.total) + "</b></span></div>";
-})();
+}
+
+/* ---------------- 启动：先画内嵌数据，再拉 data.json 覆盖（绕开图标版缓存） ---------------- */
+function renderAll(){
+  renderCards(); renderWeather(); renderForecast(); renderSpend();
+  var dv = document.getElementById("dataVer");
+  if (dv && BRIEFING.updatedAt) dv.textContent = BRIEFING.updatedAt;
+}
+renderAll();
+fetch("data.json", { cache: "no-store" }).then(function(r){ return r.json(); }).then(function(d){
+  if (d && d.tesla && d.sleep) { BRIEFING = d; renderAll(); }
+}).catch(function(){});
 
 /* ---------------- 屏幕常亮（Wake Lock） ---------------- */
 var wakeLock = null, wakeBtn = document.getElementById("wakeBtn"), wakeNote = document.getElementById("wakeNote");
