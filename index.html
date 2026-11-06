@@ -103,6 +103,16 @@
     margin-top:14px;padding:16px;border:1px dashed var(--line2);border-radius:14px;
     color:var(--text2);font-size:16px;
   }
+
+  /* 未来三天 */
+  .fc{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+  .fc-row{display:grid;grid-template-columns:88px 40px 1fr auto;align-items:center;gap:10px;font-size:14px}
+  .fc-d{color:var(--text2);font-weight:600;font-size:13.5px;white-space:nowrap}
+  .fc-c{font-weight:600;white-space:nowrap}
+  .fc-bar{position:relative;height:5px;border-radius:99px;background:rgba(255,255,255,.08)}
+  .fc-bar > i{position:absolute;top:0;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--amber))}
+  .fc-t{font-variant-numeric:tabular-nums;color:var(--text2);white-space:nowrap}
+  .fc-t b{color:var(--text)}
   .left-foot{margin-top:auto;padding-top:18px}
   .wake-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .wake-btn{
@@ -252,6 +262,17 @@
       </div>
     </section>
 
+    <div class="divider"></div>
+
+    <section aria-label="未来三天">
+      <div class="weather-head">
+        <span class="weather-label">未来三天</span>
+        <span class="weather-updated">中国天气网</span>
+      </div>
+      <div id="forecastBody"></div>
+      <p class="w-note" id="forecastNote"></p>
+    </section>
+
     <div class="left-foot">
       <div class="wake-row">
         <button class="wake-btn" id="wakeBtn" type="button" aria-pressed="false">保持屏幕常亮</button>
@@ -279,16 +300,22 @@ var BRIEFING = {
     lo: 22,
     note: "无台风/暴雨预警。东北风 24km/h、阵风 42km/h；新冷空气已到，比前几天凉约 3°C，早晚加件外套。"
   },
+  forecast: [
+    { d: "明天 · 周六", c: "多云", hi: 26, lo: 21 },
+    { d: "周日", c: "晴", hi: 29, lo: 21 },
+    { d: "周一", c: "多云", hi: 26, lo: 16 }
+  ],
+  forecastNote: "周一新一股冷空气到，最低 16°C，比周末低一截；周六东北风 5–6 级，开车注意横风。",
   tesla: {
     title: "特斯拉",
-    status: "深睡离线 · 待同步",
-    statusType: "warn",
-    measuredAt: "最近一次车辆在线 11-05 07:23 · 行驶中",
-    batteryPct: null,
-    rangeKm: null,
-    state: "深睡离线",
-    tyreBar: "待同步",
-    note: "车辆深睡离线，最新电量、续航与胎压待同步；最近一次在线为 11-05 07:23，当时行驶中。"
+    status: "已同步",
+    statusType: "ok",
+    measuredAt: "11-06 16:06 实测 · 已锁车停放",
+    batteryPct: 86,
+    rangeKm: 353,
+    state: "已锁车 · 未充电",
+    tyreBar: "2.83–2.88 bar",
+    note: "16:06 同步：电量 86%、续航 353 km，未插枪、已锁车。四轮胎压 2.83–2.88 bar，接近推荐值 2.9，正常。总里程 56,896 km。"
   },
   sleep: {
     title: "昨夜睡眠",
@@ -441,6 +468,21 @@ tick(); setInterval(tick, 1000);
     + '<div class="w-range">今日 <b>'+W.lo+'°</b> — <b>'+W.hi+'°</b></div></div></div>'
     + '<p class="w-note">'+W.note+'</p>';
   document.getElementById("wUpdated").textContent = "随晨报更新";
+})();
+
+/* ---------------- 未来三天：读 BRIEFING.forecast ---------------- */
+(function renderForecast(){
+  var F = BRIEFING.forecast;
+  if (!F || !F.length) return;
+  var MIN = 10, MAX = 32;
+  document.getElementById("forecastBody").innerHTML = '<div class="fc">' + F.map(function(x){
+    var l = Math.round((x.lo - MIN) / (MAX - MIN) * 100);
+    var w = Math.max(6, Math.round((x.hi - x.lo) / (MAX - MIN) * 100));
+    return '<div class="fc-row"><span class="fc-d">' + x.d + '</span><span class="fc-c">' + x.c + '</span>'
+      + '<span class="fc-bar"><i style="left:' + l + '%;width:' + w + '%"></i></span>'
+      + '<span class="fc-t">' + x.lo + '° — <b>' + x.hi + '°</b></span></div>';
+  }).join("") + '</div>';
+  if (BRIEFING.forecastNote) document.getElementById("forecastNote").textContent = BRIEFING.forecastNote;
 })();
 
 /* ---------------- 屏幕常亮（Wake Lock） ---------------- */
