@@ -113,6 +113,16 @@
   .fc-bar > i{position:absolute;top:0;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--amber))}
   .fc-t{font-variant-numeric:tabular-nums;color:var(--text2);white-space:nowrap}
   .fc-t b{color:var(--text)}
+
+  /* 本月消费 */
+  .sp-bars{display:flex;align-items:flex-end;gap:6px;height:88px;margin-top:12px}
+  .sp-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+  .sp-v{font-size:11.5px;color:var(--text2);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .sp-bar{width:68%;max-width:26px;min-height:3px;border-radius:5px 5px 3px 3px;background:var(--blue)}
+  .sp-bar.today{background:var(--accent)}
+  .sp-d{font-size:11.5px;color:var(--text3)}
+  .sp-cap{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text2);margin-top:6px;font-variant-numeric:tabular-nums}
+  .sp-cap b{color:var(--text)}
   .left-foot{margin-top:auto;padding-top:18px}
   .wake-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .wake-btn{
@@ -273,6 +283,16 @@
       <p class="w-note" id="forecastNote"></p>
     </section>
 
+    <div class="divider"></div>
+
+    <section aria-label="本月消费">
+      <div class="weather-head">
+        <span class="weather-label">本月消费</span>
+        <span class="weather-updated" id="spTotal"></span>
+      </div>
+      <div id="spendBody"></div>
+    </section>
+
     <div class="left-foot">
       <div class="wake-row">
         <button class="wake-btn" id="wakeBtn" type="button" aria-pressed="false">保持屏幕常亮</button>
@@ -307,6 +327,18 @@ var BRIEFING = {
     { d: "周一", c: "多云", hi: 26, lo: 16 }
   ],
   forecastNote: "周一新一股冷空气到，最低 16°C，比周末低一截；周六东北风 5–6 级，开车注意横风。",
+  spend: {
+    total: 1313.04,
+    baseline: 6271,
+    days: [
+      { d: "01", w: "日", v: 210.02 },
+      { d: "02", w: "一", v: 256 },
+      { d: "03", w: "二", v: 105 },
+      { d: "04", w: "三", v: 58.61 },
+      { d: "05", w: "四", v: 160 },
+      { d: "06", w: "五", v: 523.41, today: true }
+    ]
+  },
   tesla: {
     title: "特斯拉",
     status: "已同步",
@@ -492,6 +524,24 @@ tick(); setInterval(tick, 1000);
       + '<span class="fc-t">' + x.lo + '° — <b>' + x.hi + '°</b></span></div>';
   }).join("") + '</div>';
   if (BRIEFING.forecastNote) document.getElementById("forecastNote").textContent = BRIEFING.forecastNote;
+})();
+
+/* ---------------- 本月消费：读 BRIEFING.spend ---------------- */
+(function renderSpend(){
+  var P = BRIEFING.spend;
+  if (!P || !P.days || !P.days.length) return;
+  var max = Math.max.apply(null, P.days.map(function(x){ return x.v; }));
+  var pct = Math.min(100, Math.round(P.total / P.baseline * 100));
+  document.getElementById("spTotal").textContent = "累计 " + fmtYen(P.total);
+  document.getElementById("spendBody").innerHTML =
+    '<div class="sp-bars">' + P.days.map(function(x){
+      var h = Math.max(4, Math.round(x.v / max * 52));
+      return '<div class="sp-col"><span class="sp-v">¥' + Math.round(x.v) + '</span>'
+        + '<div class="sp-bar' + (x.today ? " today" : "") + '" style="height:' + h + 'px"></div>'
+        + '<span class="sp-d">' + x.d + " · " + x.w + "</span></div>";
+    }).join("") + "</div>"
+    + '<div class="bar blue" style="margin-top:10px"><i style="width:' + pct + '%"></i></div>'
+    + '<div class="sp-cap"><span>必要基线 <b>' + fmtYen(P.baseline) + "</b> · 已用 " + pct + '%</span><span>还剩 <b>' + fmtYen(P.baseline - P.total) + "</b></span></div>";
 })();
 
 /* ---------------- 屏幕常亮（Wake Lock） ---------------- */
