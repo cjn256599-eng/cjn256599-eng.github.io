@@ -310,12 +310,16 @@ var BRIEFING = {
     title: "特斯拉",
     status: "已同步",
     statusType: "ok",
-    measuredAt: "11-06 16:06 实测 · 已锁车停放",
+    measuredAt: "11-06 16:11 实测 · 已锁车停放",
     batteryPct: 86,
     rangeKm: 353,
     state: "已锁车 · 未充电",
     tyreBar: "2.83–2.88 bar",
-    note: "16:06 同步：电量 86%、续航 353 km，未插枪、已锁车。四轮胎压 2.83–2.88 bar，接近推荐值 2.9，正常。总里程 56,896 km。"
+    chargeLimit: "100%",
+    cabinTemp: "29.6°C",
+    outsideTemp: "29.0°C",
+    sentry: "未开启",
+    note: "16:11 同步：车门全关、充电口已关，空调与哨兵未开。按当前电量折算满电续航约 410 km；软件版本 2026.14.13；总里程 56,896 km。"
   },
   sleep: {
     title: "昨夜睡眠",
@@ -399,6 +403,10 @@ function trendHtml(cur, avg, invert){
   +   '<div class="kv-grid">'
   +     '<div class="kv"><div class="k">胎压</div><div class="v">'+T.tyreBar+'</div></div>'
   +     '<div class="kv"><div class="k">状态</div><div class="v">'+T.state+'</div></div>'
+  +     '<div class="kv"><div class="k">充电上限</div><div class="v">'+(T.chargeLimit||"—")+'</div></div>'
+  +     '<div class="kv"><div class="k">哨兵模式</div><div class="v">'+(T.sentry||"—")+'</div></div>'
+  +     '<div class="kv"><div class="k">车内温度</div><div class="v">'+(T.cabinTemp||"—")+'</div></div>'
+  +     '<div class="kv"><div class="k">车外温度</div><div class="v">'+(T.outsideTemp||"—")+'</div></div>'
   +   '</div>'
   +   '<p class="card-note tesla-note">'+T.note+'</p>'
   + '</section>'
